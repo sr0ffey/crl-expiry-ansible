@@ -1,0 +1,11 @@
+---
+- name: Playbook to check the CRL cert expiry on all environments
+  hosts: all
+  become: yes
+  remote_user: jwells
+
+  tasks:
+    - name: Check CRL cert with openssl command
+      shell: openssl x509 -enddate -noout -in /mnt/secrets/pki/ca.crt
+      register: command_output
+    - debug: msg="{{ command_output.stdout }}"
